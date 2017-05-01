@@ -2,11 +2,8 @@
 
 1.Configurar Tarjeta de red Estatica
 
-configuramos la Tarjeta de red estaticamente, por si reinicias que el servidor,el dhcp del router no te de otra ip
+configuramos la Tarjeta de red en estatica, porque si reiniciamos el servidor,el dhcp del router no nos dara otra ip
 sudo nano /etc/network/interfaces
-This file describes the network interfaces available on your system
-and how to activate them. For more information, see interfaces(5).
-
 source /etc/network/interfaces.d/*
 
 The loopback network interface
@@ -21,27 +18,29 @@ iface enp0s3 inet static
       netmask 255.255.255.0
       gateway 192.168.1.254
       dns-nameservers 192.168.1.210
-address = ip que quiere asignarle
-netmask = mascara de red, por defecto 255.255.255.0
-gateway = La ip re tu router
-dns-nameservers = ip del servidor de DNS. En mi caso le pongo la misma que address porque este pc va a actuar de servidor de DNS.
+address = la ip que queremos asignarle 
+netmask = mascara de red, 255.255.255.0
+gateway = Introducimos la ip del router
+dns-nameservers = ip del servidor dns
 
-Reiniciamos la tarjeta de red con uno de estos comandos
-sudo service networking restart
-sudo /etc/init.d/networking restart
-Si no le a funcionado los anteriores reinicia el pc
+Reiniciamos la tarjeta de red 
+sudo service networking restartt
+Si funciona reiniciamos el pc con el siguiente comando
 sudo reboot
-2.Instalar y Configurar Servidor Dns
+
+2.Configurar y instalar servidor dns
 
 Instalar Servidor Dns
 
-Para instalar el servidor de DNS usamos el siguiente comando:
+Para instalar el servidor de DNS usamos el siguiente comando;
+
 sudo apt-get install bind9
-2.2.Configurar Servidor Dns
+2.Configurar Servidor Dns
 
 Configuraremos el siguiente fichero
+
 sudo nano /etc/bind/named.conf.local
-Con la siguiente configuracion:
+Con esta configuracion en el fichero:
 
 //
 // Do any local configuration here
@@ -77,8 +76,9 @@ zone "1.168.192.in-addr.arpa"{
       type master;
       file "/etc/bind/ri.192.168.1";
 };
-Configuraremos en dns del gato.com
+Configuraremos en dns de el gato.com
 sudo nano /etc/bind/rd.gato.com
+
 Con la siguiente configuracion:
 
 $TTL 38400
@@ -160,16 +160,15 @@ $TTL 38400
 210 IN PTR servidor01.escherichiacoli.es.
 210 IN PTR servidor01.chip555.org.
 
-Una vez configurado reinicimos el servicio con una de estas opciones:
+Una vez configurado reiniciamos el servicio:
 sudo service bind9 restart
-sudo /etc/init.d/bind9 restart
 
-3.Instalar y Configurar Apache2
+3.Instalar y configurar Apache2
 
 Instalar apache2 con el siguiente comando:
 sudo apt-get install apache2
 
-Crear una estructura de directorios que alojará los datos del sitio que vamos a proporcionar a nuestros visitantes.
+Crear los siguientes directorios que alojará los datos del sitio que vamos a proporcionar a nuestros visitantes.
 
 sudo mkdir -p /var/www/gato.com/html
 sudo mkdir -p /var/www/mosquito.com/html
@@ -278,11 +277,10 @@ sudo a2ensite chip555.org.conf
 Ahora desactivamos el sitio por defecto de apache2 con el siguiente comando
 sudo a2dissite 000-default.conf
 
-Por ultimo reiniciamos el servicio de apache2 con uno de estos comandos:
-sudo /etc/init.d/apache2 restart
+Para finalizar reiniciamos el servicio de apache2:
 sudo service apache2 restart
 
-3.1 Acceso con usuario y contraseña a las paginas escherichiacoli.es y chip555.org
+3.Acceso con usuario y contraseña a las paginas escherichiacoli.es y chip555.org
 
 Necesitaremos crear un archivo de contraseñas. Éste archivo debería colocarlo en algún sitio no accesible mediante la Web. Para crear un archivo de contraseñas, usaremos la utilidad htpasswd que viene con Apache. Para crear el archivo:
 
@@ -317,6 +315,5 @@ sudo nano /etc/apache2/apache2.conf
   </Directory>
 Si sustituimos 'Require user user1' por 'Require valid-user ', tendrán acceso todos los usuarios del fichero passwords.
 
-Reiniciamos el demonio y sólo tendrá acceso el user1 a la pagina escherichiacoli.es y a la pagina chip555.org tendran acceso todos los usuarios del archivo passwords situado en /var/www/chip555.org/passwords para reiniciar el servicio/demonio uno de estos comandos.
-sudo /etc/init.d/apache2 restart
+Reiniciamos el demonio y sólo tendrá acceso el user1 a la pagina escherichiacoli.es y a la pagina chip555.org tendran acceso todos los usuarios del archivo passwords situado en /var/www/chip555.org/passwords para reiniciar el servicio lo haremos con el siguiente comando:
 sudo service apache2 restart

@@ -1,21 +1,21 @@
 # Apache
 
-1. Configurar Tarjeta de red Estatica
+1.Configurar Tarjeta de red Estatica
 
 configuramos la Tarjeta de red estaticamente, por si reinicias que el servidor,el dhcp del router no te de otra ip
 sudo nano /etc/network/interfaces
-# This file describes the network interfaces available on your system
-# and how to activate them. For more information, see interfaces(5).
+This file describes the network interfaces available on your system
+and how to activate them. For more information, see interfaces(5).
 
-#source /etc/network/interfaces.d/*
+source /etc/network/interfaces.d/*
 
-# The loopback network interface
+The loopback network interface
 auto lo
 iface lo inet loopback
 
-# The primary network interface
+The primary network interface
 auto enp0s3
-#iface enp0s3 inet dhcp
+iface enp0s3 inet dhcp
 iface enp0s3 inet static
       address 192.168.1.210
       netmask 255.255.255.0
@@ -31,13 +31,13 @@ sudo service networking restart
 sudo /etc/init.d/networking restart
 Si no le a funcionado los anteriores reinicia el pc
 sudo reboot
-2. Instalar y Configurar Servidor Dns
+2.Instalar y Configurar Servidor Dns
 
 Instalar Servidor Dns
 
 Para instalar el servidor de DNS usamos el siguiente comando:
 sudo apt-get install bind9
-2.2. Configurar Servidor Dns
+2.2.Configurar Servidor Dns
 
 Configuraremos el siguiente fichero
 sudo nano /etc/bind/named.conf.local
@@ -164,7 +164,7 @@ Una vez configurado reinicimos el servicio con una de estas opciones:
 sudo service bind9 restart
 sudo /etc/init.d/bind9 restart
 
-3. Instalar y Configurar Apache2
+3.Instalar y Configurar Apache2
 
 Instalar apache2 con el siguiente comando:
 sudo apt-get install apache2
